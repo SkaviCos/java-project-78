@@ -10,6 +10,8 @@ public class StringSchema {
     public int minLength = 0;
     public List<String> listStr = new ArrayList<>();
 
+    private int countCall = 1;
+
     public boolean isNotAllowed() {
         return this.isNotAllowed;
     }
@@ -32,12 +34,22 @@ public class StringSchema {
                 return false;
             }
         }
+
+        if (!((Objects.equals(str, null) || Objects.equals(str, "")))) {
+            for (int i = 0; i <= countCall; i++) {
+                if (str.length() <= minStringLength()) {
+                    return false;
+                }
+                countCall++;
+            }
+        }
         for (String string : listStr) {
             if (!str.contains(string)) {
                 return false;
             }
         }
-        return str.length() <= minStringLength();
+
+        return true;
     }
 
     public StringSchema contains(String str) {
