@@ -5,14 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class StringSchemaTest {
-
+public class NumberSchemaTest {
     @Test
     public void simpleTest() throws Exception {
 
         var v = new Validator();
-        var schema = v.string();
-        var schema2 = v.string();
+        var schema = v.number();
+        var schema2 = v.number();
 
         assertNotEquals(schema, schema2);
 
