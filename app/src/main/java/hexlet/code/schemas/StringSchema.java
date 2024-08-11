@@ -1,7 +1,7 @@
 package hexlet.code.schemas;
 
 
-public class StringSchema extends BaseSchema<Object> {
+public class StringSchema extends BaseSchema {
     public StringSchema required() {
         getPredicates().add(v -> v instanceof String && !((String) v).isEmpty());
         return this;

@@ -1,7 +1,7 @@
 package hexlet.code.schemas;
 
 
-public class NumberSchema extends BaseSchema<Object> {
+public class NumberSchema extends BaseSchema {
     public NumberSchema required() {
         getPredicates().add(v -> v instanceof Integer);
         return this;
