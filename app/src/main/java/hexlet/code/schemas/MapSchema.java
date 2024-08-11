@@ -2,7 +2,7 @@ package hexlet.code.schemas;
 
 import java.util.Map;
 
-public final class MapSchema extends BaseSchema {
+public final class MapSchema extends BaseSchema<Map<?, ?>> {
     public MapSchema required() {
         getPredicates().add(v -> v instanceof Map<?, ?>);
         return this;
