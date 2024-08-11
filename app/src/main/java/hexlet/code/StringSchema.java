@@ -9,7 +9,7 @@ public class StringSchema extends BaseSchema {
 
     public StringSchema minLength(int length) {
         getPredicates().add(v -> v.toString().length() >= length);
-        return this;
+        return new StringSchema();
     }
 
     public StringSchema contains(String str) {

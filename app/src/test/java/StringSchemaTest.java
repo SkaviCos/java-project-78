@@ -63,9 +63,7 @@ public class StringSchemaTest {
         var schema = v.string();
 
         assertTrue(schema.minLength(4).isValid("what does the fox say"));
-//        assertTrue(schema.minLength(10).minLength(4).isValid("Hexlet"));
-//        assertFalse(schema.minLength(10).minLength(4).minLength(8).isValid("Hexlet"));
-
+        assertTrue(schema.minLength(10).minLength(4).isValid("Hexlet"));
     }
 
 }
