@@ -1,4 +1,4 @@
-import hexlet.Validator;
+import hexlet.code.Validator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
