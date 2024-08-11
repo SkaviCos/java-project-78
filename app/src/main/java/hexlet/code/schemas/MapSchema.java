@@ -9,12 +9,12 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
     }
 
     public MapSchema sizeof(int size) {
-        getPredicates().add(v -> ((Map<?, ?>) v).size() == size);
+        getPredicates().add(v -> v.size() == size);
         return this;
     }
 
     public MapSchema shape(Map<String, BaseSchema> schemas) {
-        getPredicates().add(v -> checkMap((Map<?, ?>) v, schemas));
+        getPredicates().add(v -> checkMap(v, schemas));
         return this;
     }
 

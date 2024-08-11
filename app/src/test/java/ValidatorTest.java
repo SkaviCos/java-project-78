@@ -7,71 +7,10 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class NumberSchemaTest {
-    @Test
-    public void simpleTest() throws Exception {
-
-        var v = new Validator();
-        var schema = v.number();
-        var schema2 = v.number();
-
-        assertNotEquals(schema, schema2);
-
-    }
-
-    @Test
-    public void simpleTest2() throws Exception {
-
-        var v = new Validator();
-        var schema = v.string();
-
-        assertTrue(schema.isValid(""));
-        assertTrue(schema.isValid(null));
-
-    }
-
-    @Test
-    public void simpleTest3() throws Exception {
-
-        var v = new Validator();
-        var schema = v.string();
-
-        assertTrue(schema.isValid(""));
-
-        schema.required();
-
-        assertFalse(schema.isValid(null));
-        assertFalse(schema.isValid(""));
-        assertTrue(schema.isValid("what does the fox say"));
-
-    }
-
-    @Test
-    public void simpleTest4() throws Exception {
-
-        var v = new Validator();
-        var schema = v.string();
-
-        assertTrue(schema.contains("wh").isValid("what does the fox say"));
-        assertFalse(schema.contains("22").isValid("what does the fox say"));
-
-    }
-
-    @Test
-    public void simpleTest5() throws Exception {
-
-        var v = new Validator();
-        var schema = v.string();
-
-        assertTrue(schema.minLength(4).isValid("what does the fox say"));
-//        assertTrue(schema.minLength(10).minLength(4).isValid("Hexlet"));
-//        assertFalse(schema.minLength(10).minLength(4).minLength(8).isValid("Hexlet"));
-
-    }
+public class ValidatorTest {
 
     @Test
     public void testNumberSchema() {
@@ -105,7 +44,7 @@ public class NumberSchemaTest {
 
         schema.required();
         assertFalse(schema.isValid(null));
-        assertTrue(schema.isValid(new HashMap()));
+        assertTrue(schema.isValid(new HashMap<>()));
         Map<String, String> data = new HashMap<>();
         data.put("key1", "value1");
         assertTrue(schema.isValid(data));
@@ -147,4 +86,56 @@ public class NumberSchemaTest {
         assertFalse(schema.isValid(human4));
     }
 
+    @Test
+    public void complexMapTest() {
+        Validator v = new Validator();
+        MapSchema schema = v.map();
+
+        assertTrue(schema.isValid(null));
+        assertTrue(schema.isValid(new HashMap<>()));
+
+        schema.required();
+        assertFalse(schema.isValid(null));
+        assertTrue(schema.isValid(new HashMap<>()));
+
+        schema.sizeof(2);
+        assertFalse(schema.isValid(new HashMap<>()));
+        Map<String, String> actual1 = new HashMap<>();
+        actual1.put("key1", "value1");
+        assertFalse(schema.isValid(actual1));
+        actual1.put("key2", "value2");
+        assertTrue(schema.isValid(actual1));
+
+        Map<String, BaseSchema> schemas = new HashMap<>();
+        schemas.put("name", v.string().contains("ya").required());
+        schemas.put("age", v.number().positive());
+
+        schema.shape(schemas);
+
+        Map<String, Object> actual2 = new HashMap<>();
+        actual2.put("name", "Kolya");
+        actual2.put("age", 100);
+        assertTrue(schema.isValid(actual2));
+
+        Map<String, Object> actual3 = new HashMap<>();
+        actual3.put("name", "Maya");
+        actual3.put("age", null);
+        assertTrue(schema.isValid(actual3));
+
+        Map<String, Object> actual4 = new HashMap<>();
+        actual4.put("name", "");
+        actual4.put("age", null);
+        assertFalse(schema.isValid(actual4));
+
+        Map<String, Object> actual5 = new HashMap<>();
+        actual5.put("name", "Valya");
+        actual5.put("age", -5);
+        assertFalse(schema.isValid(actual5));
+
+        Map<String, Object> actual6 = new HashMap<>();
+        actual6.put("name", "Ada");
+        actual6.put("age", 15);
+        assertFalse(schema.isValid(actual6));
+
+    }
 }
