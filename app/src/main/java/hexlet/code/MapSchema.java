@@ -13,6 +13,11 @@ public final class MapSchema extends BaseSchema {
         return this;
     }
 
+    public MapSchema shape(Map<String, BaseSchema> schemas) {
+        getPredicates().add(v -> checkMap((Map<?, ?>) v, schemas));
+        return this;
+    }
+
     boolean checkMap(Map<?, ?> v, Map<?, BaseSchema> sch) {
         for (var x : sch.entrySet()) {
             var k = x.getKey();
