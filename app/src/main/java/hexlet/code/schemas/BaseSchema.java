@@ -6,14 +6,14 @@ import java.util.function.Predicate;
 
 public class BaseSchema<T> {
 
-    private final List<Predicate<Object>> predicates = new ArrayList<>();
+    private final List<Predicate<T>> predicates = new ArrayList<>();
 
-    public final List<Predicate<Object>> getPredicates() {
+    protected List<Predicate<T>> predicatesList() {
         return predicates;
     }
 
-    public final boolean isValid(Object obj) {
-        return predicates.stream().allMatch(v -> v.test(obj));
+    public final boolean isValid(T t) {
+        return predicates.stream().allMatch(v -> v.test(t));
     }
 
 }

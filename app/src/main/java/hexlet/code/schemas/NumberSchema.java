@@ -3,17 +3,17 @@ package hexlet.code.schemas;
 
 public final class NumberSchema extends BaseSchema<Integer> {
     public NumberSchema required() {
-        getPredicates().add(v -> v instanceof Integer);
+        predicatesList().add(v -> v != null);
         return this;
     }
 
     public NumberSchema positive() {
-        getPredicates().add(v -> v == null || v instanceof Integer && (Integer) v > 0);
+        predicatesList().add(v -> v == null || v > 0);
         return this;
     }
 
     public NumberSchema range(int from, int to) {
-        getPredicates().add(v -> (Integer) v >= from && (Integer) v <= to);
+        predicatesList().add(v -> v >= from && v <= to);
         return this;
     }
 }
