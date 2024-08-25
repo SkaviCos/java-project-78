@@ -8,7 +8,7 @@ public class BaseSchema<T> {
 
     private final List<Predicate<T>> predicates = new ArrayList<>();
 
-    protected List<Predicate<T>> predicatesList() {
+    final List<Predicate<T>> predicatesList() {
         return predicates;
     }
 
