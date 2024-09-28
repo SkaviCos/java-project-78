@@ -8,8 +8,8 @@ public class BaseSchema<T> {
 
     private final List<Predicate<T>> predicates = new ArrayList<>();
 
-    final List<Predicate<T>> predicatesList() {
-        return predicates;
+    protected final void predicatesList(Predicate<T> validationPredicate) {
+        this.predicates.add(validationPredicate);
     }
 
     public final boolean isValid(T t) {

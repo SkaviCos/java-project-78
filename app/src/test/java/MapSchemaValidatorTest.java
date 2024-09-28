@@ -1,7 +1,6 @@
 import hexlet.code.Validator;
 import hexlet.code.schemas.BaseSchema;
 import hexlet.code.schemas.MapSchema;
-import hexlet.code.schemas.NumberSchema;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -9,93 +8,11 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class ValidatorTest {
-
-    @Test
-    public void simpleTest() throws Exception {
-
-        var v = new Validator();
-        var schema = v.string();
-        var schema2 = v.string();
-
-        assertNotEquals(schema, schema2);
-
-    }
+public class MapSchemaValidatorTest {
 
     @Test
-    public void simpleTest2() throws Exception {
-
-        var v = new Validator();
-        var schema = v.string();
-
-        assertTrue(schema.isValid(""));
-        assertTrue(schema.isValid(null));
-
-    }
-
-    @Test
-    public void simpleTest3() throws Exception {
-
-        var v = new Validator();
-        var schema = v.string();
-
-        assertTrue(schema.isValid(""));
-
-        schema.required();
-
-        assertFalse(schema.isValid(null));
-        assertFalse(schema.isValid(""));
-        assertTrue(schema.isValid("what does the fox say"));
-
-    }
-
-    @Test
-    public void simpleTest4() throws Exception {
-
-        var v = new Validator();
-        var schema = v.string();
-
-        assertTrue(schema.contains("wh").isValid("what does the fox say"));
-        assertFalse(schema.contains("22").isValid("what does the fox say"));
-
-    }
-
-    @Test
-    public void simpleTest5() throws Exception {
-
-        var v = new Validator();
-        var schema = v.string();
-
-        assertTrue(schema.minLength(4).isValid("what does the fox say"));
-        assertTrue(schema.minLength(10).minLength(4).isValid("Hexlet"));
-    }
-    @Test
-    public void testNumberSchema() {
-        final Validator v = new Validator();
-        final NumberSchema schema = v.number();
-
-        assertTrue(schema.isValid(null));
-
-        schema.required();
-        assertFalse(schema.isValid(null));
-        assertTrue(schema.isValid(10));
-//        assertFalse(schema.isValid("5"));
-
-        schema.positive();
-        assertTrue(schema.isValid(10));
-        assertFalse(schema.isValid(-10));
-
-        schema.range(5, 10);
-        assertTrue(schema.isValid(5));
-        assertTrue(schema.isValid(10));
-        assertFalse(schema.isValid(4));
-        assertFalse(schema.isValid(11));
-    }
-
-    @Test
-    public void testMapSchema() {
+    public void mapSchemaTest() {
         final Validator v = new Validator();
         final MapSchema schema = v.map();
 
@@ -105,19 +22,22 @@ public class ValidatorTest {
         assertFalse(schema.isValid(null));
         assertTrue(schema.isValid(new HashMap<>()));
         Map<String, String> data = new HashMap<>();
+
         data.put("key1", "value1");
         assertTrue(schema.isValid(data));
 
         schema.sizeof(2);
         assertFalse(schema.isValid(data));
+
         data.put("key2", "value2");
         assertTrue(schema.isValid(data));
     }
 
     @Test
-    public void mapShape3() {
+    public void mapShapeTest() {
         var v = new Validator();
         var schema = v.map();
+
         Map<String, BaseSchema<String>> schemas = new HashMap<>();
         schemas.put("firstName", v.string().required());
         schemas.put("lastName", v.string().required());
@@ -136,23 +56,26 @@ public class ValidatorTest {
     }
 
     @Test
-    public void mapShape2() {
+    public void stringAndNumberMapTest() {
         var validator = new Validator();
         var validator1 = new Validator();
         var schema1 = validator1.string();
         var schema2 = validator.number();
+
         schema2.required();
         schema2.positive();
         schema1.required();
+
         var schema = validator.map();
         Map<Object, BaseSchema<?>> schemas = new HashMap<>();
         schemas.put("first name", schema1);
         schemas.put(4, schema2);
+
         assertTrue(schema.isValid(schemas));
     }
 
     @Test
-    public void complexMapTest1() {
+    public void complexMapTest() {
         var v = new Validator();
         var schema = v.map();
         Map<String, BaseSchema<String>> schemas = new HashMap<>();

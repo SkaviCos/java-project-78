@@ -3,19 +3,19 @@ package hexlet.code.schemas;
 import java.util.Map;
 import java.util.Objects;
 
-public final class MapSchema extends BaseSchema<Map> {
+public final class MapSchema extends BaseSchema<Map<?, ?>> {
     public MapSchema required() {
-        predicatesList().add(Objects::nonNull);
+        super.predicatesList(Objects::nonNull);
         return this;
     }
 
     public MapSchema sizeof(int size) {
-        predicatesList().add(v -> ((Map<?, ?>) v).size() == size);
+        predicatesList(v -> v == null || v.size() == size);
         return this;
     }
 
     public MapSchema shape(Map<String, BaseSchema<String>> schemas) {
-        predicatesList().add(v -> formValidation(schemas, (Map<?, ?>) v));
+        predicatesList(v -> formValidation(schemas, v));
         return this;
     }
 
