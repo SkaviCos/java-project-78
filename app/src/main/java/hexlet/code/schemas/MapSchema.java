@@ -5,17 +5,17 @@ import java.util.Objects;
 
 public final class MapSchema extends BaseSchema<Map<?, ?>> {
     public MapSchema required() {
-        super.predicatesList(Objects::nonNull);
+        super.predicatesList("required", Objects::nonNull);
         return this;
     }
 
     public MapSchema sizeof(int size) {
-        predicatesList(v -> v == null || v.size() == size);
+        predicatesList("sizeof", v -> v == null || v.size() == size);
         return this;
     }
 
     public MapSchema shape(Map<String, BaseSchema<String>> schemas) {
-        predicatesList(v -> formValidation(schemas, v));
+        predicatesList("shape", v -> formValidation(schemas, v));
         return this;
     }
 

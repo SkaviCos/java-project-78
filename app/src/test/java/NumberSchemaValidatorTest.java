@@ -38,9 +38,9 @@ public class NumberSchemaValidatorTest {
         var schema = v.number();
 
         assertTrue(schema.range(1, 10).isValid(5));
-        assertFalse(schema.range(0, 5).isValid(0));
+        assertTrue(schema.range(0, 5).isValid(0));
         assertTrue(schema.range(0, 5).isValid(5));
-        assertFalse(schema.range(10, 20).range(15, 25).isValid(18));
+        assertTrue(schema.range(10, 20).range(15, 25).isValid(18));
     }
 
     @Test
