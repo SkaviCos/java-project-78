@@ -34,21 +34,23 @@ public class NumberSchemaValidatorTest {
 
         var schema = new Validator().number();
 
-        assertTrue(schema.range(1, 10).isValid(5));
         assertTrue(schema.range(0, 5).isValid(0));
+        assertTrue(schema.range(0, 5).isValid(2));
+        assertFalse(schema.range(0, 5).isValid(-1));
         assertTrue(schema.range(0, 5).isValid(5));
+        assertTrue(schema.range(0, 5).isValid(null));
         assertTrue(schema.range(10, 20).range(15, 25).isValid(18));
+        assertFalse(schema.range(10, 20).range(21, 25).isValid(18));
     }
 
     @Test
     public void combinedValidationTests() {
 
-        var schema = new Validator().number();
+        var schema = new Validator().number().positive();
 
-        assertTrue(schema.positive().range(1, 10).isValid(5));
-        assertFalse(schema.positive().isValid(0));
-        assertFalse(schema.range(1, 10).isValid(-1));
-        assertTrue(schema.positive().range(1, 10).isValid(8));
+        assertTrue(schema.range(1, 10).isValid(8));
+        assertFalse(schema.range(-1, 10).isValid(-1));
+        assertTrue(schema.range(-1, 10).isValid(null));
     }
 
 }

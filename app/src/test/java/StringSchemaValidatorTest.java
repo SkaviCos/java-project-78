@@ -8,23 +8,9 @@ public class StringSchemaValidatorTest {
 
 
     @Test
-    public void stringSchemaIsValidEmptyOrNull() throws Exception {
-
-        var schema = new Validator().string();
-
-        assertTrue(schema.isValid(""));
-        assertTrue(schema.isValid(null));
-
-    }
-
-    @Test
     public void stringSchemaRequiredTest() throws Exception {
 
-        var schema = new Validator().string();
-
-        assertTrue(schema.isValid(""));
-
-        schema.required();
+        var schema = new Validator().string().required();
 
         assertFalse(schema.isValid(null));
         assertFalse(schema.isValid(""));
@@ -39,6 +25,7 @@ public class StringSchemaValidatorTest {
 
         assertTrue(schema.contains("wh").isValid("what does the fox say"));
         assertFalse(schema.contains("22").isValid("what does the fox say"));
+        assertTrue(schema.contains(" ").isValid("what does the fox say"));
 
     }
 
@@ -48,7 +35,22 @@ public class StringSchemaValidatorTest {
         var schema = new Validator().string();
 
         assertTrue(schema.minLength(4).isValid("what does the fox say"));
+        assertTrue(schema.minLength(4).isValid("what"));
+        assertFalse(schema.minLength(4).isValid("w"));
+        assertFalse(schema.minLength(4).isValid(" "));
+        assertTrue(schema.minLength(0).isValid(" "));
         assertTrue(schema.minLength(10).minLength(4).isValid("Hexlet"));
+        assertFalse(schema.minLength(10).minLength(4).isValid("Hex"));
+    }
+
+    @Test
+    public void combinedStringSchemaTest() throws Exception {
+
+        var schema = new Validator().string();
+
+        assertFalse(schema.minLength(4).contains("22").isValid("what does the fox say"));
+        assertFalse(schema.minLength(10).contains("H").isValid("Hexlet"));
+        assertTrue(schema.minLength(3).contains("H").isValid("Hex"));
     }
 
 }
