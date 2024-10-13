@@ -8,7 +8,11 @@ import java.util.function.Predicate;
 public class BaseSchema<T> {
 
     private final Map<String, Predicate<T>> predicates = new HashMap<>();
-
+    /**
+     * Добавляет правило валидации, которое требует, чтобы значение было не null.
+     *
+     * @return для построения цепочки вызовов
+     */
     public BaseSchema<T> required() {
         addValidation("required", Objects::nonNull);
         return this;

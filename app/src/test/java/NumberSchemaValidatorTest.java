@@ -11,9 +11,10 @@ public class NumberSchemaValidatorTest {
 
         var schema = new Validator().number().required();
 
-        assertTrue(schema.isValid(5));
         assertFalse(schema.isValid(null));
+        assertTrue(schema.isValid(5));
         assertTrue(schema.isValid(0));
+        assertTrue(schema.isValid(-1));
     }
 
     @Test
@@ -21,6 +22,7 @@ public class NumberSchemaValidatorTest {
 
         var schema = new Validator().number().positive();
 
+        assertTrue(schema.isValid(null));
         assertTrue(schema.isValid(5));
         assertFalse(schema.isValid(0));
         assertFalse(schema.isValid(-10));
