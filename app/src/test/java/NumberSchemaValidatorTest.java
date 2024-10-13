@@ -9,33 +9,28 @@ public class NumberSchemaValidatorTest {
     @Test
     public void requiredValidationTests() {
 
-        Validator v = new Validator();
-        var schema = v.number();
+        var schema = new Validator().number().required();
 
-        assertTrue(schema.required().isValid(5));
-        assertFalse(schema.required().isValid(null));
-        assertTrue(schema.required().isValid(0));
-        assertTrue(schema.required().positive().isValid(5));
+        assertTrue(schema.isValid(5));
+        assertFalse(schema.isValid(null));
+        assertTrue(schema.isValid(0));
     }
 
     @Test
     public void positiveValidationTests() {
 
-        Validator v = new Validator();
-        var schema = v.number();
+        var schema = new Validator().number().positive();
 
-        assertTrue(schema.positive().isValid(5));
-        assertFalse(schema.positive().isValid(0));
-        assertFalse(schema.positive().isValid(-10));
-        assertTrue(schema.required().positive().isValid(10));
+        assertTrue(schema.isValid(5));
+        assertFalse(schema.isValid(0));
+        assertFalse(schema.isValid(-10));
     }
 
 
     @Test
     public void rangeValidationTests() {
 
-        Validator v = new Validator();
-        var schema = v.number();
+        var schema = new Validator().number();
 
         assertTrue(schema.range(1, 10).isValid(5));
         assertTrue(schema.range(0, 5).isValid(0));
@@ -46,13 +41,12 @@ public class NumberSchemaValidatorTest {
     @Test
     public void combinedValidationTests() {
 
-        Validator v = new Validator();
-        var schema = v.number();
+        var schema = new Validator().number();
 
-        assertTrue(schema.required().positive().range(1, 10).isValid(5));
-        assertFalse(schema.required().positive().isValid(0));
-        assertFalse(schema.required().range(1, 10).isValid(-1));
-        assertTrue(schema.required().positive().range(1, 10).isValid(8));
+        assertTrue(schema.positive().range(1, 10).isValid(5));
+        assertFalse(schema.positive().isValid(0));
+        assertFalse(schema.range(1, 10).isValid(-1));
+        assertTrue(schema.positive().range(1, 10).isValid(8));
     }
 
 }

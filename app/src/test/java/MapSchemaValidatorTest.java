@@ -13,8 +13,7 @@ public class MapSchemaValidatorTest {
 
     @Test
     public void mapSchemaTest() {
-        final Validator v = new Validator();
-        final MapSchema schema = v.map();
+        final MapSchema schema = new Validator().map();
 
         assertTrue(schema.isValid(null));
 
@@ -51,22 +50,17 @@ public class MapSchemaValidatorTest {
         Map<String, String> human2 = new HashMap<>();
         human2.put("firstName", "John");
         human2.put("lastName", null);
+
         assertFalse(schema.isValid(human2));
 
     }
 
     @Test
     public void stringAndNumberMapTest() {
-        var validator = new Validator();
-        var validator1 = new Validator();
-        var schema1 = validator1.string();
-        var schema2 = validator.number();
+        var schema = new Validator().map();
+        var schema1 = new Validator().string().required();
+        var schema2 = new Validator().number().positive().required();
 
-        schema2.required();
-        schema2.positive();
-        schema1.required();
-
-        var schema = validator.map();
         Map<Object, BaseSchema<?>> schemas = new HashMap<>();
         schemas.put("first name", schema1);
         schemas.put(4, schema2);
@@ -77,7 +71,8 @@ public class MapSchemaValidatorTest {
     @Test
     public void complexMapTest() {
         var v = new Validator();
-        var schema = v.map();
+        var schema = new Validator().map();
+
         Map<String, BaseSchema<String>> schemas = new HashMap<>();
         schemas.put("firstName", v.string().required());
         schemas.put("lastName", v.string().required());
